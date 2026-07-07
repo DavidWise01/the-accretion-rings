@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>THE ACCRETION RINGS · the standard grows outward, never over itself</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Spectral:ital,wght@0,400;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  :root{--sea:#0e0a1c;--panel:#150f28;--ink:#ece9f5;--peri:#7e86e6;--peri-hi:#a3a9f0;--dim:#8078a0;--line:#251d3e;--gold:#d8b24a;--green:#6fbf8a;--red:#e0705a}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--sea);color:var(--ink);font-family:Spectral,Georgia,serif;line-height:1.6;background:radial-gradient(ellipse 60% 40% at 50% 4%,rgba(126,134,230,.08),transparent 60%),var(--sea)}
+  .wrap{max-width:840px;margin:0 auto;padding:44px 22px 90px}
+  .eye{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}.eye a{color:var(--dim);text-decoration:none}.eye a:hover{color:var(--peri)}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(28px,5.6vw,50px);margin:8px 0 0;color:var(--peri-hi)}
+  .sub{max-width:66ch;font-size:16.5px;color:#c9c4dd;margin:14px 0 0;font-style:italic}
+  .byline{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--dim);text-transform:uppercase;margin:10px 0 0}
+  h2{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--peri);margin:34px 0 12px}
+  .lay{display:grid;grid-template-columns:1fr 280px;gap:20px;align-items:start}
+  @media(max-width:720px){.lay{grid-template-columns:1fr}}
+  canvas{display:block;width:100%;height:auto;background:#0b0818;border:1px solid var(--line);border-radius:6px}
+  .btns{display:flex;flex-direction:column;gap:8px}
+  button{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--peri-hi);background:transparent;border:1px solid var(--peri);border-radius:3px;padding:10px 14px;cursor:pointer;text-align:left}button:hover{background:rgba(126,134,230,.1)}
+  button.warn{color:var(--red);border-color:var(--red)}button.warn:hover{background:rgba(224,112,90,.1)}
+  button.act{color:var(--gold);border-color:var(--gold)}button.act:hover{background:rgba(216,178,74,.1)}
+  .readout{font-family:'IBM Plex Mono',monospace;font-size:12px;margin-top:12px;padding:11px 13px;border:1px solid var(--line);border-radius:3px;background:#0b0818;line-height:1.8;min-height:64px}
+  .readout .g{color:var(--green)}.readout .r{color:var(--red)}.readout b{color:var(--peri-hi)}
+  .log{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--dim);margin-top:10px;line-height:1.9;max-height:120px;overflow:auto;border-left:2px solid var(--line);padding-left:12px}
+  .honest{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--peri);border-radius:0 4px 4px 0;padding:16px 18px;margin-top:34px}
+  .honest h3{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--peri);margin:0 0 10px}
+  .layer{display:grid;grid-template-columns:70px 1fr;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}.layer:last-child{border-bottom:0}
+  .layer .lk{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--peri);padding-top:3px}
+  .layer .lv{font-size:14.5px;color:#c9c4dd}.layer .lv b{color:var(--ink)}
+  footer{margin-top:40px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--dim);line-height:1.9;border-top:1px solid var(--line);padding-top:18px}footer a{color:var(--peri)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eye"><a href="../ud0/">◄ UD0</a> · ACI · CORE rule · accretion, never revision</div>
+  <h1>The Accretion Rings</h1>
+  <p class="sub">The rule that makes the ACI standard <b>safe to build on</b>: it grows only by <b>accretion</b> — you add a new member, you never revise a sealed one. Prior art can never break under you, because the past is never rewritten. Watch the family grow outward like tree-rings. Try to revise the core, and the standard refuses — it <b>forks</b> instead, and every old seal still holds.</p>
+  <p class="byline">ACI · a CORE rule made hands-on — extensible by accretion, never by revision</p>
+
+  <h2>The family, ring by ring · add, or try to revise</h2>
+  <div class="lay">
+    <div><canvas id="cv" width="440" height="440" aria-label="the ACI family as concentric accretion rings"></canvas></div>
+    <div class="btns">
+      <button class="act" id="add">＋ add a member (grows a ring)</button>
+      <button class="warn" id="revise">⟲ try to revise the core</button>
+      <button id="verify">◈ verify every seal</button>
+      <button id="reset">↺ reset to Core→DACI</button>
+      <div class="readout" id="readout"></div>
+    </div>
+  </div>
+  <div class="log" id="log"></div>
+
+  <div class="honest">
+    <h3>Two layers, honestly</h3>
+    <div class="layer"><div class="lk">Real</div><div class="lv">The data model is genuinely <b>append-only</b>. Each ring is sealed with a deterministic hash of its content at birth. “Add” pushes a new outer ring and <b>touches nothing inner</b> — press “verify” after any growth and every prior seal still recomputes green. “Revise” is <b>structurally refused</b>: it cannot mutate a sealed ring, so it <b>forks</b> a new one (the old ring stays, sealed, intact). Growth never invalidates the past — that is the property, and it is enforced, not promised.</div></div>
+    <div class="layer"><div class="lk">Figure</div><div class="lv">The <b>tree-rings</b> are the image (a coral, a trunk — things that only accrete outward). And the seal here is a short demonstration hash, not the full <code>.dlw</code> SHA-256 of <a href="../the-sealing-bench/">the sealing bench</a>; the mechanism (seal-at-birth, never-mutate) is the real content.</div></div>
+  </div>
+
+  <footer>
+    THE ACCRETION RINGS · accretion-never-revision made hands-on · a CORE instrument of the <a href="../aci/">ACI standard</a> · the rule under <a href="../aci-namespace/">the family namespace</a>.<br>
+    part of <a href="../ud0/">UD0 · THE BIOSPHERE</a> · ROOT0, with AVAN · CC-BY-ND-4.0 · the append-only model is real; the tree-rings are the figure.
+  </footer>
+</div>
+<script>
+"use strict";
+(function(){
+  function h32(s){ var h=5381; for(var i=0;i<s.length;i++) h=((h<<5)+h+s.charCodeAt(i))|0; return ('00000000'+(h>>>0).toString(16)).slice(-8); }
+  function contentOf(name,letter,idx,fork){ return name+'|'+letter+'|'+idx+(fork!=null?('|fork-of:'+fork):''); }
+  var BASE=[
+    {name:'ACI CORE',letter:'—',c:'#d8b24a'},
+    {name:'HACI',letter:'H',c:'#7e86e6'},
+    {name:'MACI',letter:'M',c:'#6fbf8a'},
+    {name:'DACI',letter:'D',c:'#a3a9f0'}
+  ];
+  var FUTURE=[{name:'EACI',letter:'E',c:'#5bc7d6'},{name:'VACI',letter:'V',c:'#c58ad6'},{name:'QACI',letter:'Q',c:'#e0a05b'},{name:'SACI',letter:'S',c:'#8a9bff'}];
+  var rings, addN, log;
+  function seal(r,i){ return h32(contentOf(r.name,r.letter,i,r.fork)); }
+  function reset(){
+    rings=BASE.map(function(b,i){ var r={name:b.name,letter:b.letter,c:b.c,fork:null}; r.seal=seal(r,i); return r; });
+    addN=0; log=[]; say('The family, sealed: Core → HACI → MACI → DACI. Add a member, or try to revise.'); draw(); renderLog();
+  }
+  function addMember(){
+    var f=FUTURE[addN%FUTURE.length]; addN++;
+    var r={name:f.name,letter:f.letter,c:f.c,fork:null}; r.seal=seal(r,rings.length); rings.push(r);
+    log.unshift('ADD  '+r.name+' ('+r.letter+') → ring '+(rings.length-1)+' · seal '+r.seal);
+    say('<span class="g">◈ '+r.name+' accreted</span> as the new outer ring. Nothing inner was touched — press <b>verify</b> to confirm every older seal still holds.');
+    draw(); renderLog();
+  }
+  function tryRevise(){
+    // attempt to revise the CORE (ring 0) — refused; fork instead
+    var forkName=rings[0].name+' ′'; var r={name:forkName,letter:rings[0].letter,c:'#e0705a',fork:0};
+    r.seal=seal(r,rings.length); rings.push(r);
+    log.unshift('REVISE core → REFUSED · forked as ring '+(rings.length-1)+' ('+forkName+') · core seal '+rings[0].seal+' unchanged');
+    say('<span class="r">✕ revision refused.</span> A sealed ring cannot be rewritten. Instead the standard <b>forked</b> — a new outer ring carries the change, and the original core keeps its seal <b>'+rings[0].seal+'</b>, untouched. The past is safe.');
+    draw(); renderLog();
+  }
+  function verify(){
+    var ok=true, first=null;
+    for(var i=0;i<rings.length;i++){ if(seal(rings[i],i)!==rings[i].seal){ ok=false; first=i; break; } }
+    if(ok) say('<span class="g">◈ all '+rings.length+' seals valid.</span> Every ring re-hashes to exactly the seal it was born with. Growth never rewrote the past — accretion, not revision.');
+    else say('<span class="r">✕ ring '+first+' failed.</span> (This should be impossible — the model forbids mutation. If you see this, something edited a sealed ring.)');
+    draw();
+  }
+  function say(h){ document.getElementById('readout').innerHTML=h; }
+  function renderLog(){ document.getElementById('log').innerHTML= log.length? log.join('<br>') : '<span style="color:#4a4560">no events yet</span>'; }
+
+  var cv=document.getElementById('cv'), ctx=cv.getContext('2d'), CW=440, CH=440;
+  function draw(){
+    ctx.clearRect(0,0,CW,CH); ctx.fillStyle='#0b0818'; ctx.fillRect(0,0,CW,CH);
+    var cx=CW/2, cy=CH/2, maxR=200, step=maxR/(rings.length+0.5);
+    // outer→inner so inner draws on top
+    for(var i=rings.length-1;i>=0;i--){
+      var r=rings[i], rad=step*(i+1);
+      if(i===0){ ctx.beginPath();ctx.arc(cx,cy,rad,0,7);ctx.fillStyle='rgba(216,178,74,.10)';ctx.fill(); }
+      ctx.beginPath(); ctx.arc(cx,cy,rad,0,7);
+      ctx.strokeStyle=r.c; ctx.lineWidth= r.fork!=null?2:2.4; if(r.fork!=null)ctx.setLineDash([6,5]);
+      ctx.stroke(); ctx.setLineDash([]);
+      // label at the top of each ring
+      ctx.fillStyle=r.c; ctx.font='700 11px "IBM Plex Mono",monospace'; ctx.textAlign='center';
+      ctx.fillText(r.name+(r.letter!=='—'?' ·'+r.letter:''), cx, cy-rad+14);
+      ctx.fillStyle='#6b6488'; ctx.font='9px "IBM Plex Mono",monospace';
+      ctx.fillText(r.seal, cx, cy-rad+26);
+    }
+    // centre glyph
+    ctx.fillStyle='#d8b24a'; ctx.font='700 13px "IBM Plex Mono",monospace'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText('CORE', cx, cy); ctx.textBaseline='alphabetic';
+    // caption
+    ctx.fillStyle='#6b6488'; ctx.font='9px "IBM Plex Mono",monospace';
+    ctx.fillText(rings.length+' rings · outward only', cx, CH-12);
+  }
+
+  document.getElementById('add').onclick=addMember;
+  document.getElementById('revise').onclick=tryRevise;
+  document.getElementById('verify').onclick=verify;
+  document.getElementById('reset').onclick=reset;
+  reset();   // paint synchronously
+})();
+</script>
+</body>
+</html>
